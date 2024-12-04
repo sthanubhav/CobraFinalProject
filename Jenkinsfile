@@ -8,7 +8,7 @@ pipeline {
             steps {
                 script {
                     // Cloning the repo and checking out the 'main' branch
-                    git url: 'https://github.com/sthanubhav/CobraFinalProject', branch: 'main'
+                    git url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
                 }
             }
         }
