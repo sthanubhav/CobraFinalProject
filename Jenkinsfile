@@ -17,8 +17,6 @@ pipeline {
                 script {
                     // Echo message to indicate the start of the build
                     echo 'Hello, this is a test build step!'
-                    // Add build commands below as needed
-                    sh 'echo "Build step executed successfully"'
                 }
             }
         }
