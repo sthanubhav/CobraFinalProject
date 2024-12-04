@@ -8,7 +8,7 @@ pipeline {
             steps {
                 script {
                     // Cloning the repo and checking out the 'main' branch
-                    git credentialsId: 'github-token', url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
+                    git credentialsId: 'githubtoken', url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
                 }
             }
         }
