@@ -1,23 +1,9 @@
 pipeline {
     agent any
-    triggers {
-        githubPush() // This enables Jenkins to respond to GitHub webhook
-    }
     stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    // Cloning the repo and checking out the 'main' branch
-                    git credentialsId: 'github-token', url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
-                }
-            }
-        }
         stage('Build') {
             steps {
-                script {
-                    // Replace with your build commands
-                    sh 'echo "Build step here"'
-                }
+                echo 'Hello, this is a test build step!'
             }
         }
     }
