@@ -3,9 +3,6 @@ pipeline {
     environment {
         PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin;C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02"
     }
-    triggers {
-        githubPush() // Triggers the pipeline on a GitHub push event
-    }
     stages {
         stage('Checkout') {
             steps {
@@ -27,10 +24,10 @@ pipeline {
                         echo "SonarQube URL: ${SONARQUBE_URL}"
 
                         bat """
-                            sonar-scanner.bat ^
-                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
-                            -Dsonar.sources=. ^
-                            -Dsonar.host.url=${SONARQUBE_URL} ^
+                            sonar-scanner.bat ^ 
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^ 
+                            -Dsonar.sources=. ^ 
+                            -Dsonar.host.url=${SONARQUBE_URL} ^ 
                             -Dsonar.login=${SONAR_AUTH_TOKEN}
                         """
                     }
@@ -41,7 +38,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        ZAP_D-2024-12-02\\zap.bat -cmd -quickurl http://localhost:8080 -apikey 12345 -scans 100 -timeout 300
+                        C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap.bat -cmd -quickurl http://localhost:8080 -apikey 12345 -scans 100 -timeout 300
                     """
                 }
             }
@@ -50,7 +47,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        ZAP_D-2024-12-02\\zap.bat -cmd -save -output zap-report.json
+                        C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap.bat -cmd -save -output zap-report.json
                     """
                 }
             }
