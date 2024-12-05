@@ -63,15 +63,6 @@ pipeline {
                 }
             }
         }
-        stage('Publish ZAP Report') {
-            steps {
-                htmlPublisher(
-                    reportDir: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\CobraFinalProject',
-                    reportFiles: 'zap-report.html',
-                    reportTitle: 'ZAP Security Report'
-                )
-            }
-        }
         stage('Quality Gate') {
             steps {
                 timeout(time: 1, unit: 'MINUTES') {
