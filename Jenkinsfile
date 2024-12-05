@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin"
+        PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin;C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02"
     }
     triggers {
         githubPush() // Triggers the pipeline on a GitHub push event
@@ -41,8 +41,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        curl -X POST "http://localhost:8085/JSON/ascan/action/scan?url=http://localhost:8080&recurse=true&insect=true" ^
-                        -H "Content-Type: application/json"
+                        ZAP_D-2024-12-02\\zap.bat -cmd -quickurl http://localhost:8080 -apikey 12345 -scans 100 -timeout 300
                     """
                 }
             }
@@ -51,9 +50,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        curl -X GET "http://localhost:8085/JSON/report/action/generate?formMethod=GET&reportType=JSON&source=http://localhost:8080" ^
-                        -H "Accept: application/json" ^
-                        -o zap-report.json
+                        ZAP_D-2024-12-02\\zap.bat -cmd -save -output zap-report.json
                     """
                 }
             }
