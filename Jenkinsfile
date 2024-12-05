@@ -1,47 +1,36 @@
 pipeline {
     agent any
-    triggers {
-        githubPush() // Triggers the pipeline on a GitHub push event
-    }
     environment {
         SONAR_HOST_URL = 'http://192.168.37.143:9000'
-        SONAR_AUTH_TOKEN = credentials('sonarqubetoken') // Uses your SonarQube token
+        SONAR_AUTH_TOKEN = credentials('sonarqubetoken') // Replace with your SonarQube token's credentials ID
     }
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    // Cloning the repo and checking out the 'main' branch
-                    git credentialsId: 'githubtoken', url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
-                }
+                git credentialsId: 'githubtoken', url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
             }
         }
         stage('Build') {
             steps {
-                script {
-                    // Echo message to indicate the start of the build
-                    echo 'Hello, this is a test build step!!'
-                }
+                echo 'Building the project...'
             }
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqubeserver') { // Replace 'SonarQube' with your SonarQube configuration name in Jenkins
-                    script {
-                        sh """
-                        sonar-scanner \
-                        -Dsonar.projectKey=CobraFinalProject \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=$SONAR_HOST_URL \
-                        -Dsonar.login=$SONAR_AUTH_TOKEN
-                        """
-                    }
+                withSonarQubeEnv('sonarqubeserver') {
+                    bat """
+                    sonar-scanner.bat ^
+                    -Dsonar.projectKey=CobraFinalProject ^
+                    -Dsonar.sources=. ^
+                    -Dsonar.host.url=%SONAR_HOST_URL% ^
+                    -Dsonar.login=%SONAR_AUTH_TOKEN%
+                    """
                 }
             }
         }
         stage('Quality Gate') {
             steps {
-                script {
+                timeout(time: 1, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
