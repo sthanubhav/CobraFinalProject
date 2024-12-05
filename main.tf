@@ -1,47 +1,34 @@
-# Configure the VirtualBox provider
-provider "virtualbox" {
-  version = ">= 0.4.0"
+# Specify the provider and version
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+  required_version = ">= 1.0"
 }
 
-# Create a NAT network for the VM
-resource "virtualbox_nat_network" "nat_network" {
-  name   = "nat-network"
-  enable = true
-
-  # Optional settings for the NAT network
-  ipv4_network = "192.168.56.0/24"  # Specify the network range
-  ipv4_gateway = "192.168.56.1"
-  dhcp        = true  # Enable DHCP to assign IPs automatically
+provider "aws" {
+  region = "us-east-1"  # Specify your desired AWS region
 }
 
-# Define a VirtualBox virtual machine
-resource "virtualbox_vm" "secure_vm" {
-  name    = "secure-local-vm"
-  image   = "ubuntu-22.04.5-desktop-amd64.iso"  # Path to the ISO image
-  cpus    = 2
-  memory  = 4096  # Memory in MB
-  boot_order = ["dvd", "hd"]
-
-  # Attach a network adapter connected to the NAT network
-  network_interface {
-    type             = "nat"
-    network_name     = virtualbox_nat_network.nat_network.name
-  }
-
-  disk {
-    size = 10240  # Disk size in MB
-  }
-
-  secure_boot = true  # Enable secure boot for enhanced security
-
-  # Optional: Enable TPM for secure boot operations
-  tpm {
-    version = "2.0"
-  }
+# Define a key pair for SSH access
+resource "aws_key_pair" "my_key" {
+  key_name   = "my-terraform-key"
+  public_key = file("D:\\sshkey")  # Path to your public key file
 }
 
-# Attach the ISO image as a CD/DVD drive
-resource "virtualbox_cdrom" "iso" {
-  vm_id   = virtualbox_vm.secure_vm.id
-  image   = "C:\\Users\\Anubhav\\Downloads\\ubuntu-22.04.5-desktop-amd64.iso"
+# Launch an EC2 instance
+resource "aws_instance" "example" {
+  ami           = "ami-005fc0f236362e99f"  # Example AMI ID for Amazon Linux 2 in us-west-2
+  instance_type = "t3.micro"  # Choose the instance type
+
+  # Add the key pair for SSH access
+  key_name = aws_key_pair.my_key.key_name
+
+  # Tag the instance for identification
+  tags = {
+    Name = "MyTerraformInstance"
+  }
 }
