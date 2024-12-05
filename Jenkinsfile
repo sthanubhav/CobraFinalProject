@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin;C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02"
+        ZAP_HOME = 'C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02'
     }
     triggers {
         githubPush() // Triggers the pipeline on a GitHub push event
@@ -41,7 +42,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap.bat -cmd -quickurl https://real-legal-drake.ngrok-free.app/
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -quickurl https://real-legal-drake.ngrok-free.app/
                     """
                 }
             }
@@ -50,7 +51,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap.bat -cmd -save -output zap-report.json
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -save -output zap-report.json
                     """
                 }
             }
