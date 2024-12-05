@@ -40,15 +40,6 @@ pipeline {
                 }
             }
         }
-        stage('Start ZAP Daemon') {
-            steps {
-                script {
-                    bat """
-                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -daemon -port 8085
-                    """
-                }
-            }
-        }
         stage('Run ZAP Scan') {
             steps {
                 script {
