@@ -42,7 +42,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -quickurl https://real-legal-drake.ngrok-free.app/
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -quickurl https://real-legal-drake.ngrok-free.app/ -port 8085
                     """
                 }
             }
