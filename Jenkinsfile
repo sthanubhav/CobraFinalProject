@@ -3,8 +3,6 @@ pipeline {
     environment {
         PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin;C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02"
         ZAP_HOME = 'C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02'
-        ZAP_URL = 'http://localhost:8085'
-        ZAP_API_KEY = credentials('zap-api-key') // Inject the ZAP API key
     }
     triggers {
         githubPush() // Triggers the pipeline on a GitHub push event
@@ -40,22 +38,37 @@ pipeline {
                 }
             }
         }
-        stage('Run ZAP Scan') {
+        stage('ZAP Security Scan') {
+            environment {
+                ZAP_API_KEY = credentials('zap-api-key') // Inject the ZAP API key
+            }
             steps {
                 script {
                     bat """
-                        curl -X GET "${ZAP_URL}/JSON/ascan/action/scan/?url=https://real-legal-drake.ngrok-free.app/&apikey=${ZAP_API_KEY}"
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -port 8085 -quickurl https://real-legal-drake.ngrok-free.app/
                     """
                 }
             }
         }
         stage('Generate ZAP Report') {
+            environment {
+                ZAP_API_KEY = credentials('zap-api-key') // Inject the ZAP API key
+            }
             steps {
                 script {
                     bat """
-                        curl -X GET "${ZAP_URL}/JSON/report/action/generate/?apikey=${ZAP_API_KEY}&formattype=json&reportFilePath=C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\CobraFinalProject\\zap-report.json"
+                        curl -X GET "http://localhost:8085/JSON/report/action/generate/?apikey=${ZAP_API_KEY}&formattype=html&reportFilePath=C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\CobraFinalProject\\zap-report.html"
                     """
                 }
+            }
+        }
+        stage('Publish ZAP Report') {
+            steps {
+                htmlPublisher(
+                    reportDir: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\CobraFinalProject',
+                    reportFiles: 'zap-report.html',
+                    reportTitle: 'ZAP Security Report'
+                )
             }
         }
         stage('Quality Gate') {
