@@ -17,15 +17,17 @@ pipeline {
             }
         }
         stage('Terraform Init & Apply') {
-            environment {
-                TF_WORKSPACE = 'D:\\CobraFinalProject-main'  // Path to your Terraform configuration folder
-            }
             steps {
                 script {
                     // Initialize Terraform configuration
                     bat """
                         cd D:\\CobraFinalProject-main
                         C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64\\terraform.exe init -input=false
+                    """
+                    // Validate Terraform configuration
+                    bat """
+                        cd D:\\CobraFinalProject-main
+                        C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64\\terraform.exe validate
                     """
                     // Apply the Terraform configuration to create the VM
                     bat """
@@ -78,7 +80,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        curl -X GET "http://localhost:8085/UI/reports/action/generate/?apikey=7l12l0d7sbanhuvou0qovhe32k&title=CobraFinalProjectReport&template=traditional-html&theme=&description=&contexts=&sites=https://real-legal-drake.ngrok-free.app/&sections=&includedConfidences=&includedRisks=&reportFileName=&reportFileNamePattern=&reportDir=&display="
+                        curl -X GET "http://localhost:8085/UI/reports/action/generate/?apikey=${ZAP_API_KEY}&title=CobraFinalProjectReport&template=traditional-html&theme=&description=&contexts=&sites=https://real-legal-drake.ngrok-free.app/&sections=&includedConfidences=&includedRisks=&reportFileName=&reportFileNamePattern=&reportDir=&display="
                     """
                 }
             }
