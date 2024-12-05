@@ -44,14 +44,14 @@ pipeline {
                 script {
                     // Run ZAP scan using the ZAP API on the specified URL
                     bat """
-                        curl -X POST ${ZAP_URL}/JSON/ascan/action/scan?url=http://localhost:8080&recurse=true&insect=true
+                        curl -X POST "http://localhost:8085/JSON/ascan/action/scan?url=http://localhost:8080&recurse=true&insect=true"
                     """
                     // Wait for ZAP scan to complete (adjust wait time as needed)
                     sleep(time: 30, unit: 'SECONDS')
 
                     // Generate a report after the scan
                     bat """
-                        curl -X GET ${ZAP_URL}/JSON/report/action/generate?formMethod=GET&reportType=JSON&source=http://localhost:8080 > zap-report.json
+                        curl -X GET "http://localhost:8085/JSON/report/action/generate?formMethod=GET&reportType=JSON&source=http://localhost:8080" > zap-report.json
                     """
                 }
             }
