@@ -1,30 +1,33 @@
 pipeline {
     agent any
-    environment {
-        SONAR_HOST_URL = 'http://192.168.37.143:9000'
-        SONAR_AUTH_TOKEN = credentials('sonarqubetoken') // Replace with your SonarQube token's credentials ID
+    triggers {
+        githubPush() // Triggers the pipeline on a GitHub push event
     }
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'githubtoken', url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
-            }
-        }
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
+                script {
+                    git credentialsId: 'githubtoken', url: 'https://github.com/sthanubhav/CobraFinalProject.git', branch: 'main'
+                }
             }
         }
         stage('SonarQube Analysis') {
+            environment {
+                SONARQUBE_URL = 'http://192.168.37.143:9000'
+                SONAR_PROJECT_KEY = 'CobraFinalProject'
+                SONAR_AUTH_TOKEN = credentials('sonarqubetoken') // Inject the SonarQube token
+            }
             steps {
                 withSonarQubeEnv('sonarqubeserver') {
-                    bat """
-                    sonar-scanner.bat ^
-                    -Dsonar.projectKey=CobraFinalProject ^
-                    -Dsonar.sources=. ^
-                    -Dsonar.host.url=%SONAR_HOST_URL% ^
-                    -Dsonar.login=%SONAR_AUTH_TOKEN%
-                    """
+                    script {
+                        sh """
+                            sonar-scanner \
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=${SONARQUBE_URL} \
+                            -Dsonar.login=${SONAR_AUTH_TOKEN}
+                        """
+                    }
                 }
             }
         }
