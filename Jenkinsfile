@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -port 8085 -quickurl https://real-legal-drake.ngrok-free.app/ -apikey ${ZAP_API_KEY}
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -port 8085 -quickurl https://real-legal-drake.ngrok-free.app/
                     """
                 }
             }
@@ -57,7 +57,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -report "http://localhost:8085" -format "json" -apikey ${ZAP_API_KEY}
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -report "http://localhost:8085" -format "json"
                     """
                 }
             }
