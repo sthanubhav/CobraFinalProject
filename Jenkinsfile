@@ -29,9 +29,9 @@ pipeline {
 
                         bat """
                             sonar-scanner.bat ^
-                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
-                            -Dsonar.sources=. ^
-                            -Dsonar.host.url=${SONARQUBE_URL} ^
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^ 
+                            -Dsonar.sources=. ^ 
+                            -Dsonar.host.url=${SONARQUBE_URL} ^ 
                             -Dsonar.login=${SONAR_AUTH_TOKEN}
                         """
                     }
@@ -39,19 +39,25 @@ pipeline {
             }
         }
         stage('ZAP Security Scan') {
+            environment {
+                ZAP_API_KEY = credentials('zap-api-key') // Inject the ZAP API key
+            }
             steps {
                 script {
                     bat """
-                        java -Xmx512m -jar "C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap-D-2024-12-02.jar" -cmd -port 8085 -quickurl https://real-legal-drake.ngrok-free.app/
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -port 8085 -quickurl https://real-legal-drake.ngrok-free.app/ -apikey ${ZAP_API_KEY}
                     """
                 }
             }
         }
         stage('Generate ZAP Report') {
+            environment {
+                ZAP_API_KEY = credentials('zap-api-key') // Inject the ZAP API key
+            }
             steps {
                 script {
                     bat """
-                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -quickout "http://localhost:8085" -format "json"
+                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -report "http://localhost:8085" -format "json" -apikey ${ZAP_API_KEY}
                     """
                 }
             }
