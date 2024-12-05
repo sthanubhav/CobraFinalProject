@@ -58,7 +58,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        curl -X GET "http://localhost:8085/HTML/reports/action/generate/?apikey=7l12l0d7sbanhuvou0qovhe32k&title=CobraFinalProjectReport&template=traditional-html&theme=&description=&contexts=&sites=https%3A%2F%2Freal-legal-drake.ngrok-free.app%2F&sections=&includedConfidences=&includedRisks=&reportFileName=&reportFileNamePattern=&reportDir=&display="
+                        curl -X GET "http://localhost:8085/HTML/reports/action/generate/?apikey=7l12l0d7sbanhuvou0qovhe32k&title=CobraFinalProjectReport&template=traditional-html&theme=&description=&contexts=&sites=https://real-legal-drake.ngrok-free.app/&sections=&includedConfidences=&includedRisks=&reportFileName=&reportFileNamePattern=&reportDir=&display="
                     """
                 }
             }
