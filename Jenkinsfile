@@ -25,13 +25,11 @@ pipeline {
                 script {
                     // Initialize Terraform configuration
                     bat """
-                        cd ${TF_WORKSPACE}
-                        ${TF_PATH}\\terraform init
+                        C:\\Users\\Anubhav\\Downloads\\terraform\\terraform.exe init
                     """
                     // Apply the Terraform configuration to create the VM
                     bat """
-                        cd ${TF_WORKSPACE}
-                        ${TF_PATH}\\terraform apply -auto-approve
+                        C:\\Users\\Anubhav\\Downloads\\terraform\\terraform.exe apply -auto-approve
                     """
                 }
             }
