@@ -44,8 +44,9 @@ pipeline {
             }
             steps {
                 script {
+                    // Start the ZAP scan using the API
                     bat """
-                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -port 8085 -quickurl https://real-legal-drake.ngrok-free.app/
+                        curl -X GET "http://localhost:8085/JSON/ascan/action/scan/?apikey=${ZAP_API_KEY}&url=https://real-legal-drake.ngrok-free.app/&maxChildren=10"
                     """
                 }
             }
