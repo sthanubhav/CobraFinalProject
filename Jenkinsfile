@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin;C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02"
+        PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin;C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02;C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64"
         ZAP_HOME = 'C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02'
-        TERRAFORM_HOME = 'C:\\Users\\Anubhav\\Downloads\\terraform'
+        TERRAFORM_HOME = 'C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64'
     }
     triggers {
         githubPush() // Triggers the pipeline on a GitHub push event
@@ -18,18 +18,17 @@ pipeline {
         }
         stage('Terraform Init & Apply') {
             environment {
-                TF_PATH = 'C:\\Users\\Anubhav\\Downloads\\terraform'  // Path to Terraform executable
                 TF_WORKSPACE = 'D:\\CobraFinalProject-main'  // Path to your Terraform configuration folder
             }
             steps {
                 script {
                     // Initialize Terraform configuration
                     bat """
-                        C:\\Users\\Anubhav\\Downloads\\terraform\\terraform.exe init
+                        C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64\\terraform.exe init -input=false
                     """
                     // Apply the Terraform configuration to create the VM
                     bat """
-                        C:\\Users\\Anubhav\\Downloads\\terraform\\terraform.exe apply -auto-approve
+                        C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64\\terraform.exe apply -auto-approve -input=false
                     """
                 }
             }
@@ -48,9 +47,9 @@ pipeline {
 
                         bat """
                             sonar-scanner.bat ^
-                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
-                            -Dsonar.sources=. ^
-                            -Dsonar.host.url=${SONARQUBE_URL} ^
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^ 
+                            -Dsonar.sources=. ^ 
+                            -Dsonar.host.url=${SONARQUBE_URL} ^ 
                             -Dsonar.login=${SONAR_AUTH_TOKEN}
                         """
                     }
@@ -77,7 +76,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        curl -X GET "http://localhost:8085/HTML/reports/action/generate/?apikey=7l12l0d7sbanhuvou0qovhe32k&title=CobraFinalProjectReport&template=traditional-html&theme=&description=&contexts=&sites=https://real-legal-drake.ngrok-free.app/&sections=&includedConfidences=&includedRisks=&reportFileName=&reportFileNamePattern=&reportDir=&display="
+                        curl -X GET "http://localhost:8085/UI/reports/action/generate/?apikey=7l12l0d7sbanhuvou0qovhe32k&title=CobraFinalProjectReport&template=traditional-html&theme=&description=&contexts=&sites=https://real-legal-drake.ngrok-free.app/&sections=&includedConfidences=&includedRisks=&reportFileName=&reportFileNamePattern=&reportDir=&display="
                     """
                 }
             }
