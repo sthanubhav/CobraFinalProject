@@ -46,7 +46,7 @@ pipeline {
                 script {
                     // Start the ZAP scan using the API
                     bat """
-                        curl -X GET "http://localhost:8085/JSON/ascan/action/scan/?apikey=${ZAP_API_KEY}&url=https://real-legal-drake.ngrok-free.app/&maxChildren=10"
+                        curl -X GET "http://localhost:8085/UI/ascan/action/scan/?apikey=${ZAP_API_KEY}&url=https://real-legal-drake.ngrok-free.app/&maxChildren=10"
                     """
                 }
             }
@@ -58,7 +58,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        curl -X GET "http://localhost:8085/JSON/report/action/generate/?apikey=${ZAP_API_KEY}&formattype=html&reportFilePath=C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\CobraFinalProject\\zap-report.html"
+                        curl -X GET "http://localhost:8085/UI/reports/action/generate/?apikey=${ZAP_API_KEY}&title=Security+Report&template=traditional&theme=default&description=ZAP+Security+Scan+Report&contexts=default&sites=https://real-legal-drake.ngrok-free.app/&sections=all&includedConfidences=Low&includedRisks=High&reportFileName=C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\CobraFinalProject\\zap-report.html"
                     """
                 }
             }
