@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap.bat -cmd -quickurl http://localhost:8080 -apikey 12345 -scans 100 -timeout 300
+                        C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap.bat -cmd -quickurl https://real-legal-drake.ngrok-free.app/ -apikey 12345 -scans 100 -timeout 300
                     """
                 }
             }
