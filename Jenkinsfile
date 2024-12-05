@@ -15,7 +15,7 @@ pipeline {
             environment {
                 SONARQUBE_URL = 'http://192.168.37.143:9000'
                 SONAR_PROJECT_KEY = 'CobraFinalProject'
-                SONAR_AUTH_TOKEN = credentials('sonarqubetoken') // Inject the SonarQube toke
+                SONAR_AUTH_TOKEN = credentials('jenkins-sonar') // Inject the SonarQube toke
             }
             steps {
                 withSonarQubeEnv('sonarqubeserver') {
