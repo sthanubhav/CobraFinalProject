@@ -26,7 +26,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') { // Replace 'SonarQube' with your SonarQube configuration name in Jenkins
+                withSonarQubeEnv('sonarqubeserver') { // Replace 'SonarQube' with your SonarQube configuration name in Jenkins
                     script {
                         sh """
                         sonar-scanner \
