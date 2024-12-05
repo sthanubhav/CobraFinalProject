@@ -17,7 +17,7 @@ provider "aws" {
 # Define a key pair for SSH access
 resource "aws_key_pair" "my_key" {
   key_name   = "my-terraform-key"
-  public_key = file("D:\\sshkey")  # Path to your public key file
+  public_key = file("D:\\myterraformkey.pub")  # Path to your public key file
 }
 
 # Launch an EC2 instance
