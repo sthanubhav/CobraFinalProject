@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        PATH = "${PATH};C:\\Users\\Anubhav\\Downloads\\sonar-scanner-cli-6.2.1.4610-windows-x64\\sonar-scanner-6.2.1.4610-windows-x64\\bin"
+    }
     triggers {
         githubPush() // Triggers the pipeline on a GitHub push event
     }
@@ -22,10 +25,10 @@ pipeline {
                     script {
                         bat """
                             sonar-scanner.bat ^
-                            -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
                             -Dsonar.sources=. ^
-                            -Dsonar.host.url=%SONARQUBE_URL% ^
-                            -Dsonar.login=%SONAR_AUTH_TOKEN%
+                            -Dsonar.host.url=${SONARQUBE_URL} ^
+                            -Dsonar.login=${SONAR_AUTH_TOKEN}
                         """
                     }
                 }
