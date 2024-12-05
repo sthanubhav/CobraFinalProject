@@ -15,17 +15,17 @@ pipeline {
             environment {
                 SONARQUBE_URL = 'http://192.168.37.143:9000'
                 SONAR_PROJECT_KEY = 'CobraFinalProject'
-                SONAR_AUTH_TOKEN = credentials('jenkins-sonar') // Inject the SonarQube toke
+                SONAR_AUTH_TOKEN = credentials('jenkins-sonar') // Inject the SonarQube token
             }
             steps {
                 withSonarQubeEnv('sonarqubeserver') {
                     script {
-                        sh """
-                            sonar-scanner \
-                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=${SONARQUBE_URL} \
-                            -Dsonar.login=${SONAR_AUTH_TOKEN}
+                        bat """
+                            sonar-scanner.bat ^
+                            -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
+                            -Dsonar.sources=. ^
+                            -Dsonar.host.url=%SONARQUBE_URL% ^
+                            -Dsonar.login=%SONAR_AUTH_TOKEN%
                         """
                     }
                 }
