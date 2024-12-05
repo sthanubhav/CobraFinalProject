@@ -51,7 +51,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        java -Xmx512m -jar "${ZAP_HOME}\\zap-D-2024-12-02.jar" -cmd -save -output zap-report.json
+                        java -Xmx512m -jar "C:\\Users\\Anubhav\\Downloads\\ZAP_WEEKLY_D-2024-12-02\\ZAP_D-2024-12-02\\zap-D-2024-12-02.jar" -cmd -report "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\CobraFinalProject\\zap-report.json" -format "json"
                     """
                 }
             }
