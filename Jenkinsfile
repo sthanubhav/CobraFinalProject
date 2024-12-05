@@ -23,11 +23,14 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonarqubeserver') {
                     script {
+                        echo "SonarQube Analysis: Project Key: ${SONAR_PROJECT_KEY}"
+                        echo "SonarQube URL: ${SONARQUBE_URL}"
+
                         bat """
-                            sonar-scanner.bat ^ 
-                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^ 
-                            -Dsonar.sources=. ^ 
-                            -Dsonar.host.url=${SONARQUBE_URL} ^ 
+                            sonar-scanner.bat ^
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
+                            -Dsonar.sources=. ^
+                            -Dsonar.host.url=${SONARQUBE_URL} ^
                             -Dsonar.login=${SONAR_AUTH_TOKEN}
                         """
                     }
