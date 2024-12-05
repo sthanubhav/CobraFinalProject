@@ -10,7 +10,8 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"  # Specify your desired AWS region
+  region                  = "us-east-1"  # Specify your desired AWS region
+  shared_credentials_file = "C:\\Users\\Anubhav\\.aws\\credentials"  # Path to AWS credentials file
 }
 
 # Define a key pair for SSH access
