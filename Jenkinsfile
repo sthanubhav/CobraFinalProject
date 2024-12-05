@@ -24,10 +24,12 @@ pipeline {
                 script {
                     // Initialize Terraform configuration
                     bat """
+                        cd D:\\CobraFinalProject-main
                         C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64\\terraform.exe init -input=false
                     """
                     // Apply the Terraform configuration to create the VM
                     bat """
+                        cd D:\\CobraFinalProject-main
                         C:\\Users\\Anubhav\\Downloads\\terraform_1.10.1_windows_amd64\\terraform.exe apply -auto-approve -input=false
                     """
                 }
