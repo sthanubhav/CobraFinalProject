@@ -24,6 +24,7 @@ resource "aws_key_pair" "my_key" {
 resource "aws_instance" "example" {
   ami           = "ami-005fc0f236362e99f"  # Example AMI ID for Amazon Linux 2 in us-west-2
   instance_type = "t3.micro"  # Choose the instance type
+  associate_public_ip_address = true
 
   # Add the key pair for SSH access
   key_name = aws_key_pair.my_key.key_name
