@@ -33,4 +33,7 @@ resource "aws_instance" "example" {
   tags = {
     Name = "MyTerraformInstance"
   }
+  lifecycle {
+    ignore_changes = [associate_public_ip_address]
+  }
 }
